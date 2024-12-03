@@ -38,7 +38,7 @@ export async function GET() {
 				    ,pg2.id  as pg2_id  \
 				    , c2.name as away_team\
 				    , pg2.goals as away_goals \
-				    , pg2.match_type_id as match_type_id \
+				    , m1.name as category \
 				 \
 				FROM \
 				    PAIRINGS_AND_GOALS as pg1 \
@@ -50,6 +50,8 @@ export async function GET() {
 				        on pg1.my_country_id = c1.id \
 				        inner join countries as c2 \
 				        on pg2.my_country_id = c2.id \
+				        inner join match_type m1 \
+        				on pg2.match_type_id = m1.id \
 				where \
 				    pg1.id <= 64  \
 				order by \

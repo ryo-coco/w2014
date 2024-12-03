@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import CountriesTable from '../components/CountriesTable'; // 必要なコンポーネントをインポート
 import PairingsTable from '../components/PairingsTable';
+import GroupLeague from '../components/GroupLeague';
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<'schedule' | 'teams'>('schedule');
+  const [activeSection, setActiveSection] = useState<'schedule' | 'teams' | 'group_league'>('schedule');
 
   return (
     <main className="container mx-auto p-4 bg-white min-h-screen">
@@ -32,12 +33,22 @@ export default function Home() {
         >
           チーム
         </button>
+        <button 
+          onClick={() => setActiveSection('group_league')}
+          className={`px-4 py-2 rounded ${
+            activeSection === 'group_league' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-gray-200 text-black'
+          }`}
+        >
+          グループリーグ
+        </button>
       </div>
 
       {activeSection === 'schedule' && (
         <div className="text-black">
           <h2 className="text-xl font-semibold mb-4">試合日程</h2>
-          <div className="grid grid-col md:grid-cols-4 gap-4">
+          <div className="grid grid-col ">
             <PairingsTable /> 
           </div>
         </div>
@@ -46,8 +57,17 @@ export default function Home() {
       {activeSection === 'teams' && (
         <div>
           <h2 className="text-xl font-semibold mb-4 text-black">チーム一覧</h2>
-          <div className="grid grid-col md:grid-cols-4 gap-4">
+          <div className="grid grid-col ">
             <CountriesTable /> 
+          </div>
+        </div>
+      )}
+
+      {activeSection === 'group_league' && (
+        <div>
+          <h2 className="text-xl font-semibold mb-4 text-black">グループリーグ</h2>
+          <div className="grid grid-col ">
+            <GroupLeague /> 
           </div>
         </div>
       )}

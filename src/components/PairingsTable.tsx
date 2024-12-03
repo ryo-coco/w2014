@@ -10,7 +10,7 @@ interface Pairing {
   pg2_id: number;
   home_goals: string;
   away_goals: string;
-  match_type_id: string;
+  category: string;
 }
 
 export default function PairingsTable() {
@@ -48,22 +48,28 @@ export default function PairingsTable() {
       <div className="w-full overflow-x-auto bg-white p-4 rounded-lg shadow-md">
         <table className="w-full border-collapse">
           <thead>
-            <tr className="bg-gray-100">
+            <tr className="bg-gray-200 text-ml">
+              <th className="border border-gray-300 w-1/6 p-1 text-black font-semibold ">日時</th>
+              <th className="border border-gray-300 p-2 text-black font-semibold">カテゴリー</th>
               <th className="border border-gray-300 p-2 text-black font-semibold">ホーム</th>
-              <th className="border border-gray-300 p-1 text-black font-semibold">得点</th>
-              <th className="border border-gray-300 p-2 text-black font-semibold">開始時刻</th>
-              <th className="border border-gray-300 p-1 text-black font-semibold">得点</th>
+              <th className="border border-gray-300 p-2 text-black font-semibold">スコア</th>
               <th className="border border-gray-300 p-2 text-black font-semibold">アウェイ</th>
             </tr>
           </thead>
           <tbody>
             {pairings.map((pairing) => (
-              <tr key={pairing.pg1_id} className="hover:bg-gray-50">
-                <td className="border border-gray-300 p-2 text-black text-center">{pairing.home_team}</td>
-                <td className="border border-gray-300 p-2 text-black text-center">{pairing.home_goals}</td>
-                <td className="border border-gray-300 p-2 text-black text-center text-xs">{pairing.kick_off}</td>
-                <td className="border border-gray-300 p-2 text-black text-center">{pairing.away_goals}</td>
-                <td className="border border-gray-300 p-2 text-black text-center">{pairing.away_team}</td>
+              <tr key={pairing.pg1_id} className="hover:bg-gray-100">
+                <td className="border border-gray-300 p-1 text-black text-center text-xs">{pairing.kick_off}</td>
+                <td className="border border-gray-300 p-2 text-black text-center text-xs">{pairing.category}</td>
+                <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.home_team}</td>
+                <td className="border border-gray-300 p-2 text-black text-center font-medium text-sm">
+                  <span className="gap-2">{pairing.home_goals}</span>
+                  <span className="gap-2"> - </span>
+                  <span className="gap-2">{pairing.away_goals}</span>
+                </td>
+                {/* <td className="border border-gray-300 p-2 text-black text-center">{pairing.home_goals}</td>
+                <td className="border border-gray-300 p-2 text-black text-center">{pairing.away_goals}</td> */}
+                <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.away_team}</td>
               </tr>
             ))}
           </tbody>
