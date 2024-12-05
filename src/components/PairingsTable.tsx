@@ -58,7 +58,7 @@ export default function PairingsTable() {
           </thead>
           <tbody>
             {pairings.map((pairing) => (
-              <tr key={pairing.pg1_id} className="hover:bg-gray-100">
+              <tr key={pairing.pg1_id} className="hover:bg-gray-100" onClick={() => console.log(pairing.pg1_id)}>
                 <td className="border border-gray-300 p-1 text-black text-center text-xs">{pairing.kick_off}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-xs">{pairing.category}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.home_team}</td>

@@ -4,15 +4,26 @@ import { useState } from 'react';
 import CountriesTable from '../components/CountriesTable'; // 必要なコンポーネントをインポート
 import PairingsTable from '../components/PairingsTable';
 import GroupLeague from '../components/GroupLeague';
+import Result from '../components/Result'; 
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState<'schedule' | 'teams' | 'group_league'>('schedule');
+  const [activeSection, setActiveSection] = useState<'top' | 'schedule' | 'teams' | 'group_league'>('top');
 
   return (
     <main className="container mx-auto p-4 bg-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-black text-center">W杯2014</h1>
       
       <div className="flex justify-center space-x-4 mb-6">
+        <button 
+          onClick={() => setActiveSection('top')}
+          className={`px-4 py-2 rounded ${
+            activeSection === 'top' 
+              ? 'bg-blue-500 text-white' 
+              : 'bg-gray-200 text-black'
+          }`}
+        >
+          トップ
+        </button>
         <button 
           onClick={() => setActiveSection('schedule')}
           className={`px-4 py-2 rounded ${
@@ -44,6 +55,14 @@ export default function Home() {
           グループリーグ
         </button>
       </div>
+
+      {activeSection === 'top' && (
+        <div className="text-black">
+          <div className="grid grid-col ">
+            <Result />
+          </div>
+        </div>
+      )}
 
       {activeSection === 'schedule' && (
         <div className="text-black">
