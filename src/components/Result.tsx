@@ -1,16 +1,27 @@
-'use client';
+//'use client';
 
 import React, { useState, useEffect } from 'react';
 import GroupStage from './GroupStage';
+import KnockoutStage from './KnockoutStage';
+import { GroupProvider } from "./GroupContext";
+import { useStageContext } from "./context/StageContext";
+
 
 export default function Result() {
-  const [activeSection, setActiveSection] = useState<'group_stage' | 'nockout_stage'>('group_stage');
+  const [activeSection, setActiveSection] = useState<'group_stage' | 'knockout_stage'>('group_stage');
+  const { setSelectedStage } = useStageContext();
 
   return (
-    <div className="container">
+    <GroupProvider>
+      <div className="container">
       <div className="container mx-auto space-x-4 bg-white grid grid-cols-2 w-2/3">
       <button 
-          onClick={() => setActiveSection('group_stage')}
+            onClick={(e) => {
+              setActiveSection('group_stage');
+              e.preventDefault();
+              setSelectedStage('1');
+            }
+            }
           className={`px-4 py-1 rounded text-sm ${
             activeSection === 'group_stage' 
               ? 'bg-blue-500 text-white' 
@@ -20,9 +31,13 @@ export default function Result() {
           グループステージ
         </button>
         <button 
-          onClick={() => setActiveSection('nockout_stage')}
+              onClick={(e) => {
+                setActiveSection('knockout_stage');
+                e.preventDefault();
+                setSelectedStage('2');
+                }}
           className={`px-4 py-1 rounded text-sm ${
-            activeSection === 'nockout_stage' 
+            activeSection === 'knockout_stage' 
               ? 'bg-blue-500 text-white' 
               : 'bg-gray-200 text-black'
           }`}
@@ -37,7 +52,16 @@ export default function Result() {
         </div>
       )}
       </div>
-      
-    </div>
+      <div>
+      {activeSection === 'knockout_stage' && (
+        <div className="container m-auto w-3/4">
+          <KnockoutStage />
+        </div>
+      )}
+      </div>
+
+        
+      </div>
+    </GroupProvider>
   );
 }

@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useGroupContext } from "./GroupContext";
+import { useStageContext } from './context/StageContext';
 
 interface Pairing {
   pg1_id: number;
@@ -17,11 +19,14 @@ export default function PairingsTable() {
     const [pairings, setPairings] = useState<Pairing[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const { selectedGroup } = useGroupContext();
+    const { selectedStage} = useStageContext();
+
   
     useEffect(() => {
       const fetchPairings = async () => {
         try {
-          const response = await fetch('/api/pairing');
+          const response = await fetch(`/api/pairing?group=${selectedGroup}&stage=${selectedStage}`);
           const result = await response.json();
           
           if (result.status === 'success') {
@@ -39,13 +44,14 @@ export default function PairingsTable() {
       };
   
       fetchPairings();
-    }, []);
+    }, [selectedGroup, selectedStage]);
   
     if (loading) return <div className="text-black bg-white p-4">読み込み中...</div>;
     if (error) return <div className="text-red-500 bg-white p-4">エラー: {error}</div>;
   
     return (
       <div className="w-full overflow-x-auto bg-white p-4 rounded-lg shadow-md">
+        <div className="text-xl font-bold mb-4 text-black my-4">日程・結果</div>
         <table className="w-full border-collapse">
           <thead>
             <tr className="bg-gray-200 text-ml">

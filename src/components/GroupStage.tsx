@@ -2,16 +2,15 @@
 
 import GroupNavigation from "./GroupNavigation";
 import GroupLeague from "./GroupLeague";
-import { GroupProvider } from "./GroupContext";
+import PairingsTable from "./PairingsTable";
 
 export default function GroupStage() {
   return (
-    <GroupProvider>
       <div>
         <GroupNavigation />
         <GroupLeague />
+        <PairingsTable /> 
       </div>
-    </GroupProvider>
   );
 }
 

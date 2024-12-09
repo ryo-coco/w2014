@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 
 interface Country {
   id: number;
@@ -14,7 +14,7 @@ export default function CountriesTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchCountries = async () => {
       try {
         const response = await fetch('/api/countries');

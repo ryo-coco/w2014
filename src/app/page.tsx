@@ -5,11 +5,14 @@ import CountriesTable from '../components/CountriesTable'; // 必要なコンポ
 import PairingsTable from '../components/PairingsTable';
 import GroupLeague from '../components/GroupLeague';
 import Result from '../components/Result'; 
+import { StageProvider} from "../components/context/StageContext";
+
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<'top' | 'schedule' | 'teams' | 'group_league'>('top');
 
   return (
+    <StageProvider>
     <main className="container mx-auto p-4 bg-white min-h-screen">
       <h1 className="text-3xl font-bold mb-6 text-black text-center">W杯2014</h1>
       
@@ -59,16 +62,15 @@ export default function Home() {
       {activeSection === 'top' && (
         <div className="text-black">
           <div className="grid grid-col ">
-            <Result />
           </div>
         </div>
       )}
 
       {activeSection === 'schedule' && (
         <div className="text-black">
-          <h2 className="text-xl font-semibold mb-4">試合日程</h2>
+          <h2 className="text-xl font-semibold mb-4"></h2>
           <div className="grid grid-col ">
-            <PairingsTable /> 
+          <Result />
           </div>
         </div>
       )}
@@ -90,6 +92,8 @@ export default function Home() {
           </div>
         </div>
       )}
-    </main>
+      </main>
+      </StageProvider>
+
   );
 }
