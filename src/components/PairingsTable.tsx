@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useGroupContext } from "./GroupContext";
 import { useStageContext } from './context/StageContext';
+import MatchDetailModal from './modal/matchDetailModal'
 
 interface Pairing {
   pg1_id: number;
@@ -21,7 +22,7 @@ export default function PairingsTable() {
     const [error, setError] = useState<string | null>(null);
     const { selectedGroup } = useGroupContext();
     const { selectedStage} = useStageContext();
-
+    const [isModalOpen, setIsModalOpen] = useState(false);
   
     useEffect(() => {
       const fetchPairings = async () => {
@@ -46,6 +47,25 @@ export default function PairingsTable() {
       fetchPairings();
     }, [selectedGroup, selectedStage]);
   
+    const handlePairingClick = async (pg1_id: number, pg2_id: number) => {
+      // try {
+        console.log('handlePairingClick');
+        setIsModalOpen(true);
+
+        //   const response = await fetch(`/api/match-detail?pg1_id=${pg1_id}&pg2_id=${pg2_id}`);
+      //   const result = await response.json();
+      
+      //   if (result.status === 'success') {
+      //     // setSelectedMatch(result.data);
+      //     setIsModalOpen(true);
+      //   } else {
+      //     console.error('Failed to fetch match details');
+      //   }
+      // } catch (err) {
+      //   console.error('Error fetching match details:', err);
+      // }
+  };
+  
     if (loading) return <div className="text-black bg-white p-4">読み込み中...</div>;
     if (error) return <div className="text-red-500 bg-white p-4">エラー: {error}</div>;
   
@@ -64,7 +84,7 @@ export default function PairingsTable() {
           </thead>
           <tbody>
             {pairings.map((pairing) => (
-              <tr key={pairing.pg1_id} className="hover:bg-gray-100" onClick={() => console.log(pairing.pg1_id)}>
+              <tr key={pairing.pg1_id} className="hover:bg-gray-100" onClick={() => handlePairingClick(pairing.pg1_id, pairing.pg2_id)}>
                 <td className="border border-gray-300 p-1 text-black text-center text-xs">{pairing.kick_off}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-xs">{pairing.category}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.home_team}</td>
@@ -73,13 +93,14 @@ export default function PairingsTable() {
                   <span className="gap-2"> - </span>
                   <span className="gap-2">{pairing.away_goals}</span>
                 </td>
-                {/* <td className="border border-gray-300 p-2 text-black text-center">{pairing.home_goals}</td>
-                <td className="border border-gray-300 p-2 text-black text-center">{pairing.away_goals}</td> */}
                 <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.away_team}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        <MatchDetailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+            <div className="text-gray-900">モーダル</div>
+        </MatchDetailModal>
       </div>
     );
   }
