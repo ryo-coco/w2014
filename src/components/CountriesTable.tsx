@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useLayoutEffect } from 'react';
+import Image from 'next/image';
 
 interface Country {
   id: number;
@@ -41,7 +42,7 @@ export default function CountriesTable() {
   if (error) return <div className="text-red-500 bg-white p-4">エラー: {error}</div>;
 
   return (
-    <div className="w-full overflow-x-auto bg-white p-4 rounded-lg shadow-md">
+    <div className="w-3/4 container m-auto bg-white p-4 rounded-lg shadow-md">
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-gray-100">
@@ -54,8 +55,21 @@ export default function CountriesTable() {
         <tbody>
           {countries.map((country) => (
             <tr key={country.id} className="hover:bg-gray-50">
-              <td className="border border-gray-300 p-2 text-black text-center">{country.id}</td>
-              <td className="border border-gray-300 p-2 text-black">{country.name}</td>
+              <td className="border border-gray-300 p-2 text-black text-center">
+                  {country.id}
+              </td>
+              <td className="border border-gray-300 p-2 text-black">
+                <div className="flex items-center ">
+                  <Image
+                      src={`/national_flag/${country.id}.png`}
+                      alt={`${country.name} flag`}
+                      width={24}
+                      height={16}
+                      className="mr-2"
+                    />
+                {country.name}
+                </div>
+              </td>
               <td className="border border-gray-300 p-2 text-black text-center">{country.ranking}</td>
               <td className="border border-gray-300 p-2 text-black text-center">{country.group_name}</td>
             </tr>

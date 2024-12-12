@@ -48,7 +48,7 @@ export default function Home() {
           チーム
         </button>
         <button 
-          onClick={() => setActiveSection('group_league')}
+          // onClick={() => setActiveSection('group_league')}
           className={`px-4 py-2 rounded ${
             activeSection === 'group_league' 
               ? 'bg-blue-500 text-white' 

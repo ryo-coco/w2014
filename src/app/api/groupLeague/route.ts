@@ -1,4 +1,3 @@
-import { log } from "console";
 import { NextRequest, NextResponse } from "next/server";
 import { Pool } from "pg";
 

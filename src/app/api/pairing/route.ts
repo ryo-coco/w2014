@@ -51,9 +51,11 @@ export async function GET(request: NextRequest) {
 		) SELECT 
 		    pg1.id as pg1_id  
 		    , to_char(pg1.kickoff, 'YYYY/MM/DD HH24:MI') as kick_off 
-		    , c1.name as home_team
+		    , c1.id as home_country_id
+        , c1.name as home_team
 		    , pg1.goals as home_goals 
 		    ,pg2.id  as pg2_id  
+		    , c2.id as away_country_id
 		    , c2.name as away_team
 		    , pg2.goals as away_goals 
 		    , m1.name as category 

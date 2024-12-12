@@ -1,5 +1,6 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import { useGroupContext } from "./GroupContext";
+import Image from 'next/image';
 
 interface GroupLeague {
   id: number;
@@ -83,7 +84,18 @@ export default function GroupLeague() {
                   key={country.id} 
                   className={`hover:bg-blue-50 ${index < 2 ? 'bg-yellow-100' : ''}`}
                 >
-                  <td className="border border-gray-300 p-2 text-black text-center">{country.countryname}</td>
+                  <td className="border border-gray-300 p-2 text-black text-left">
+                    <div className="flex items-center ">
+                      <Image
+                      src={`/national_flag/${country.id}.png`}
+                      alt={`${country.countryname} flag`}
+                      width={24}
+                      height={16}
+                      className="mr-2"
+                    />
+                    {country.countryname}
+                  </div>
+                  </td>
                   <td className="border border-gray-300 p-2 text-black text-center">{country.winpoints}</td>
                   <td className="border border-gray-300 p-2 text-black text-center">{country.games}</td>
                   <td className="border border-gray-300 p-2 text-black text-center">{country.wins}</td>

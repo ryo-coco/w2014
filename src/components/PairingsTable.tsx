@@ -1,16 +1,19 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useGroupContext } from "./GroupContext";
 import { useStageContext } from './context/StageContext';
-import MatchDetailModal from './modal/matchDetailModal'
+import MatchDetailModal from './modal/MatchDetailModal'
 
 interface Pairing {
   pg1_id: number;
   kick_off: string;
+  home_country_id: number;
   home_team: string;
   away_team: string;
   pg2_id: number;
+  away_country_id: number;
   home_goals: string;
   away_goals: string;
   category: string;
@@ -52,18 +55,6 @@ export default function PairingsTable() {
         console.log('handlePairingClick');
         setIsModalOpen(true);
 
-        //   const response = await fetch(`/api/match-detail?pg1_id=${pg1_id}&pg2_id=${pg2_id}`);
-      //   const result = await response.json();
-      
-      //   if (result.status === 'success') {
-      //     // setSelectedMatch(result.data);
-      //     setIsModalOpen(true);
-      //   } else {
-      //     console.error('Failed to fetch match details');
-      //   }
-      // } catch (err) {
-      //   console.error('Error fetching match details:', err);
-      // }
   };
   
     if (loading) return <div className="text-black bg-white p-4">読み込み中...</div>;
@@ -87,13 +78,35 @@ export default function PairingsTable() {
               <tr key={pairing.pg1_id} className="hover:bg-gray-100" onClick={() => handlePairingClick(pairing.pg1_id, pairing.pg2_id)}>
                 <td className="border border-gray-300 p-1 text-black text-center text-xs">{pairing.kick_off}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-xs">{pairing.category}</td>
-                <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.home_team}</td>
+                <td className="border border-gray-300 p-2 text-black text-center text-sm">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src={`/national_flag/${pairing.home_country_id}.png`}
+                      alt={`${pairing.home_team} flag`}
+                      width={24}
+                      height={16}
+                      className="mr-2"
+                    />
+                    {pairing.home_team}
+                  </div>
+                </td>
                 <td className="border border-gray-300 p-2 text-black text-center font-medium text-sm">
                   <span className="gap-2">{pairing.home_goals}</span>
                   <span className="gap-2"> - </span>
                   <span className="gap-2">{pairing.away_goals}</span>
                 </td>
-                <td className="border border-gray-300 p-2 text-black text-center text-sm">{pairing.away_team}</td>
+                <td className="border border-gray-300 p-2 text-black text-center text-sm">
+                  <div className="flex items-center justify-center">
+                    <Image
+                      src={`/national_flag/${pairing.away_country_id}.png`}
+                      alt={`${pairing.away_team} flag`}
+                      width={24}
+                      height={16}
+                      className="mr-2"
+                    />
+                    {pairing.away_team}
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
