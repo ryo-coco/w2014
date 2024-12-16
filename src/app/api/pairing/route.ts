@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const group = searchParams.get("group");
   const stage = searchParams.get("stage");
-  console.log(stage);
+  // console.log(stage);
 
   const pool = new Pool({
     user: process.env.DB_USER,
@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
 
     // const queryParams = group ? [group] : [];
     const queryParams = getWhereParams(stage, group);
-    console.log(whereClause);
+    // console.log(whereClause);
 
     const result = await client.query(queryText, queryParams);
 

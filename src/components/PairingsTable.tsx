@@ -19,6 +19,14 @@ interface Pairing {
   category: string;
 }
 
+interface MatchDetail {
+  goal_id: number;
+  country: string;
+  player: string;
+  goal_time: string;
+}
+
+
 export default function PairingsTable() {
     const [pairings, setPairings] = useState<Pairing[]>([]);
     const [loading, setLoading] = useState(true);
@@ -26,7 +34,9 @@ export default function PairingsTable() {
     const { selectedGroup } = useGroupContext();
     const { selectedStage} = useStageContext();
     const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [matchDetails, setMatchDetails] = useState<{ home: MatchDetail[], away: MatchDetail[] }>({ home: [], away: [] });
+  const [matchResult, setMatchResult] = useState<Pairing | null>(null);
+
     useEffect(() => {
       const fetchPairings = async () => {
         try {
@@ -50,12 +60,35 @@ export default function PairingsTable() {
       fetchPairings();
     }, [selectedGroup, selectedStage]);
   
-    const handlePairingClick = async (pg1_id: number, pg2_id: number) => {
-      // try {
-        console.log('handlePairingClick');
-        setIsModalOpen(true);
+    const handlePairingClick = async (pairings: Pairing) => {
+      try {
+        setMatchResult(pairings);
+        
+        setLoading(true);
+        const [homeResponse, awayResponse] = await Promise.all([
+          fetch(`/api/matchDetail?id=${pairings.pg1_id}`),
+          fetch(`/api/matchDetail?id=${pairings.pg2_id}`)
+        ]);
+        
+        const homeResult = await homeResponse.json();
+        const awayResult = await awayResponse.json();
 
-  };
+        if (homeResult.status === 'success' && awayResult.status === 'success') {
+          setMatchDetails({
+            home: homeResult.data,
+            away: awayResult.data
+          });
+          setIsModalOpen(true);
+        } else {
+          setError('試合詳細の取得に失敗しました');
+        }
+      } catch (err) {
+        setError('データの取得に失敗しました');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
   
     if (loading) return <div className="text-black bg-white p-4">読み込み中...</div>;
     if (error) return <div className="text-red-500 bg-white p-4">エラー: {error}</div>;
@@ -75,7 +108,7 @@ export default function PairingsTable() {
           </thead>
           <tbody>
             {pairings.map((pairing) => (
-              <tr key={pairing.pg1_id} className="hover:bg-gray-100" onClick={() => handlePairingClick(pairing.pg1_id, pairing.pg2_id)}>
+              <tr key={pairing.pg1_id} className="hover:bg-gray-100" onClick={() => handlePairingClick(pairing)}>
                 <td className="border border-gray-300 p-1 text-black text-center text-xs">{pairing.kick_off}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-xs">{pairing.category}</td>
                 <td className="border border-gray-300 p-2 text-black text-center text-sm">
@@ -111,8 +144,72 @@ export default function PairingsTable() {
             ))}
           </tbody>
         </table>
-        <MatchDetailModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-            <div className="text-gray-900">モーダル</div>
+        <MatchDetailModal 
+          isOpen={isModalOpen} 
+          onClose={() => setIsModalOpen(false)} 
+        >
+          <div className="container w-7/8 text-black m-auto ">
+            {matchResult && (
+              <div>
+               <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-white-200 text-ml">
+                      <th className="border border-gray-300 font-semibold p-2 w-2/5">
+                        <div className="flex items-center justify-center">
+                        <Image
+                          src={`/national_flag/${matchResult.home_country_id}.png`}
+                          alt={`${matchResult.home_team} flag`}
+                          width={24}
+                          height={16}
+                          className="mr-2"
+                        />
+                          <span id="truncate">{matchResult.home_team}</span>
+                        </div>
+                    </th>
+                    <th className="border border-gray-300 font-semibold p-2 ">{matchResult.home_goals}</th>
+                    <th className="border border-gray-300 font-semibold p-2 "> ー </th>
+                    <th className="border border-gray-300 font-semibold p-2 ">{matchResult.away_goals}</th>
+                      <th className="border border-gray-300 font-semibold w-2/5">
+                        <div className="flex items-center justify-center ">
+                        <Image
+                          src={`/national_flag/${matchResult.away_country_id}.png`}
+                          alt={`${matchResult.away_team} flag`}
+                          width={24}
+                          height={16}
+                          className="mr-2"
+                        />
+                          <span id="truncate">{matchResult.away_team}</span>
+                        </div>
+                      </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="bg-white-200 text-ml border border-gray-300 h-64">
+                      <td className="border border-gray-300 font-semibold p-2 w-2/5 align-top text-sm">
+                        {matchDetails.home.map((home) => (
+                          <div  key={home.goal_id} className="flex items-start mb-2">
+                            <span className="mr-2 truncate">{home.goal_time}</span>
+                            <span className="truncate">{home.player}</span>
+                          </div>
+                        ))}
+                      </td>
+                      <td className="p-2 w-12"></td>
+                      <td className="p-2 w-12"></td>
+                      <td className="p-2 w-12"></td>
+                      <td className="border border-gray-300 font-semibold p-2 w-2/5 align-top text-sm">
+                        {matchDetails.away.map((away) => (
+                          <div  key={away.goal_id} className="flex items-start mb-2">
+                            <span className="mr-2 truncate">{away.goal_time}</span>
+                            <span className="truncate">{away.player}</span>
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </MatchDetailModal>
       </div>
     );

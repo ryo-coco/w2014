@@ -12,7 +12,7 @@ export default function Result() {
   const { setSelectedStage } = useStageContext();
 
   return (
-    <GroupProvider>
+    // <GroupProvider>
       <div className="container">
       <div className="container mx-auto space-x-4 bg-white grid grid-cols-2 w-2/3">
       <button 
@@ -48,20 +48,24 @@ export default function Result() {
       <div>
       {activeSection === 'group_stage' && (
         <div className="container m-auto w-3/4">
-          <GroupStage />
+          <GroupProvider>
+            <GroupStage />
+          </GroupProvider>
         </div>
       )}
       </div>
       <div>
       {activeSection === 'knockout_stage' && (
         <div className="container m-auto w-3/4">
-          <KnockoutStage />
+          <GroupProvider>
+            <KnockoutStage />
+          </GroupProvider>
         </div>
       )}
       </div>
 
         
       </div>
-    </GroupProvider>
+    // </GroupProvider>
   );
 }
