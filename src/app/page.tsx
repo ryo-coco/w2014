@@ -77,7 +77,7 @@ export default function Home() {
 
       {activeSection === 'teams' && (
         <div>
-          <h2 className="text-xl font-semibold mb-4 text-black">チーム一覧</h2>
+          <h2 className="text-xl font-semibold mb-4 text-black"></h2>
           <div className="grid grid-col ">
             <CountriesTable /> 
           </div>

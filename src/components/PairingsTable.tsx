@@ -153,7 +153,7 @@ export default function PairingsTable() {
               <div>
                <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-white-200 text-ml">
+                  <tr className="border border-gray-300 bg-white-200 text-ml">
                       <th className="border border-gray-300 font-semibold p-2 w-2/5">
                         <div className="flex items-center justify-center">
                         <Image
@@ -166,9 +166,9 @@ export default function PairingsTable() {
                           <span id="truncate">{matchResult.home_team}</span>
                         </div>
                     </th>
-                    <th className="border border-gray-300 font-semibold p-2 ">{matchResult.home_goals}</th>
-                    <th className="border border-gray-300 font-semibold p-2 "> ー </th>
-                    <th className="border border-gray-300 font-semibold p-2 ">{matchResult.away_goals}</th>
+                    <th className="font-semibold p-2 ">{matchResult.home_goals}</th>
+                    <th className="font-semibold p-2 "> ー </th>
+                    <th className="font-semibold p-2 ">{matchResult.away_goals}</th>
                       <th className="border border-gray-300 font-semibold w-2/5">
                         <div className="flex items-center justify-center ">
                         <Image
@@ -187,7 +187,7 @@ export default function PairingsTable() {
                     <tr className="bg-white-200 text-ml border border-gray-300 h-64">
                       <td className="border border-gray-300 font-semibold p-2 w-2/5 align-top text-sm">
                         {matchDetails.home.map((home) => (
-                          <div  key={home.goal_id} className="flex items-start mb-2">
+                          <div key={home.goal_id} className="flex items-start mb-2">
                             <span className="mr-2 truncate">{home.goal_time}</span>
                             <span className="truncate">{home.player}</span>
                           </div>
@@ -198,7 +198,7 @@ export default function PairingsTable() {
                       <td className="p-2 w-12"></td>
                       <td className="border border-gray-300 font-semibold p-2 w-2/5 align-top text-sm">
                         {matchDetails.away.map((away) => (
-                          <div  key={away.goal_id} className="flex items-start mb-2">
+                          <div key={away.goal_id} className="flex items-start mb-2">
                             <span className="mr-2 truncate">{away.goal_time}</span>
                             <span className="truncate">{away.player}</span>
                           </div>

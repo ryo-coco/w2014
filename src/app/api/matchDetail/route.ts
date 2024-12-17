@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 
     const queryText = `
 		SELECT
-		    g1.id
+		    g1.id as goal_id
 		    , COALESCE(c1.name, 
 		        (SELECT c2.name
 		         FROM pairings p1
