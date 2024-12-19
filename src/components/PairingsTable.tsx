@@ -37,6 +37,8 @@ export default function PairingsTable() {
   const [matchDetails, setMatchDetails] = useState<{ home: MatchDetail[], away: MatchDetail[] }>({ home: [], away: [] });
   const [matchResult, setMatchResult] = useState<Pairing | null>(null);
 
+
+
     useEffect(() => {
       const fetchPairings = async () => {
         try {
