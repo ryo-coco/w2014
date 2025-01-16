@@ -33,8 +33,8 @@ export default function PointRankingTable() {
     fetchPointRanking();
   }, []);
 
-  if (loading) return <div className="text-black bg-white p-4">読み込み中...</div>;
-  if (error) return <div className="text-red-500 bg-white p-4">エラー: {error}</div>;
+  if (loading) return <div className="w-3/4 container m-auto text-black bg-white p-4">読み込み中...</div>;
+  if (error) return <div className="w-3/4 container m-auto text-red-500 bg-white p-4">エラー: {error}</div>;
   // 順位を計算する関数
   const calculateRank = (currentPlayer: PointRanking, index: number, array: PointRanking[]): number => {
     if (index === 0) return 1;

@@ -38,8 +38,8 @@ export default function CountriesTable() {
     fetchCountries();
   }, []);
 
-  if (loading) return <div className="text-black bg-white p-4">読み込み中...</div>;
-  if (error) return <div className="text-red-500 bg-white p-4">エラー: {error}</div>;
+  if (loading) return <div className="w-3/4 container m-auto text-black bg-white p-4">読み込み中...</div>;
+  if (error) return <div className="w-3/4 container m-auto text-red-500 bg-white p-4">エラー: {error}</div>;
 
   const groupedCountries = countries.reduce((acc, country) => {
     if (!acc[country.group_name]) {
